@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telecom Self-Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #560bad;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-menu .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .user-menu .avatar:hover {
+            transform: scale(1.1);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            position: relative;
+        }
+        
+        .nav-links li a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links li a:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .nav-links li a i {
+            margin-right: 8px;
+        }
+        
+        .active {
+            color: var(--primary) !important;
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .main-content {
+            display: flex;
+            padding: 2rem 0;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-right: 1.5rem;
+            height: fit-content;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .sidebar-menu li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-menu li a:hover {
+            background-color: rgba(67, 97, 238, 0.05);
+            color: var(--primary);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .sidebar-menu li.active a {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .content-area {
+            flex: 1;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .page-header h2 {
+            color: var(--primary);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-header h3 {
+            color: var(--primary);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .service-card {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            background-color: #e9ecef;
+        }
+        
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .service-info {
+            flex: 1;
+        }
+        
+        .service-info h4 {
+            margin-bottom: 0.3rem;
+            color: var(--dark);
+        }
+        
+        .service-info p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .service-actions {
+            display: flex;
+        }
+        
+        .service-actions .btn {
+            margin-left: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th, .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .table th {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 50rem;
+        }
+        
+        .badge-success {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: #4cc9f0;
+        }
+        
+        .badge-warning {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: #f8961e;
+        }
+        
+        .badge-danger {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: #f72585;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.75rem;
+        }
+        
+        .col {
+            flex: 1;
+            padding: 0 0.75rem;
+        }
+        
+        .col-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            color: var(--primary);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .modal-footer .btn {
+            margin-left: 0.5rem;
+        }
+        
+        .tab-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab:hover {
+            color: var(--primary);
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1.5rem 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .dashboard-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dashboard-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .dashboard-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .dashboard-card p {
+            color: #6c757d;
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .payment-icon {
+            width: 50px;
+            height: 30px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .payment-info {
+            flex: 1;
+        }
+        
+        .payment-info h4 {
+            margin-bottom: 0.3rem;
+        }
+        
+        .payment-info p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .payment-actions {
+            display: flex;
+        }
+        
+        .payment-actions .btn {
+            margin-left: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 1.5rem;
+            }
+            
+            .col-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-menu {
+                margin-top: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                width: 100%;
+            }
+            
+            .nav-links li a {
+                padding: 1rem;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .service-actions {
+                flex-direction: column;
+            }
+            
+            .service-actions .btn {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+            
+            .payment-actions {
+                flex-direction: column;
+            }
+            
+            .payment-actions .btn {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+            
+            .footer-section {
+                flex: 0 0 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .table th, .table td {
+                padding: 0.75rem;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.5s ease-in-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(67, 97, 238, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-satellite-dish"></i>
+                    <span>Telecom Self-Service</span>
+                </div>
+                <div class="user-menu">
+                    <span>Welcome, John Doe</span>
+                    <div class="avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <nav>
+            <div class="container">
+                <ul class="nav-links">
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-mobile-alt"></i> My Services</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Billing</a></li>
+                    <li><a href="#"><i class="fas fa-credit-card"></i> Payments</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Account Settings</a></li>
+                    <li><a href="#"><i class="fas fa-headset"></i> Support</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <aside class="sidebar">
+                <ul class="sidebar-menu">
+                    <li class="active"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-wifi"></i> Internet Services</a></li>
+                    <li><a href="#"><i class="fas fa-mobile-alt"></i> Mobile Services</a></li>
+                    <li><a href="#"><i class="fas fa-tv"></i> TV Services</a></li>
+                    <li><a href="#"><i class="fas fa-phone"></i> Phone Services</a></li>
+                    <li><a href="#"><i class="fas fa-file-invoice-dollar"></i> Bills & Payments</a></li>
+                    <li><a href="#"><i class="fas fa-credit-card"></i> Payment Methods</a></li>
+                    <li><a href="#"><i class="fas fa-user-cog"></i> Account Settings</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Help & Support</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                </ul>
+            </aside>
+            
+            <main class="content-area">
+                <div class="page-header">
+                    <h2>Dashboard</h2>
+                    <div>
+                        <button class="btn btn-outline"><i class="fas fa-bell"></i> Notifications</button>
+                    </div>
+                </div>
+                
+                <div class="dashboard-cards">
+                    <div class="dashboard-card fade-in">
+                        <i class="fas fa-wifi"></i>
+                        <h3>Internet</h3>
+                        <p>Active</p>
+                    </div>
+                    <div class="dashboard-card fade-in" style="animation-delay: 0.1s;">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>Mobile</h3>
+                        <p>2 Active Plans</p>
+                    </div>
+                    <div class="dashboard-card fade-in" style="animation-delay: 0.2s;">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <h3>Current Bill</h3>
+                        <p>$89.99</p>
+                    </div>
+                    <div class="dashboard-card fade-in" style="animation-delay: 0.3s;">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>Due Date</h3>
+                        <p>May 15, 2025</p>
+                    </div>
+                </div>
+                
+                <div class="tab-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="services">My Services</div>
+                        <div class="tab" data-tab="bills">Recent Bills</div>
+                        <div class="tab" data-tab="payments">Payment Methods</div>
+                    </div>
+                    
+                    <div class="tab-content active" id="services">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Internet Services</h3>
+                                <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Service</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="service-card slide-in">
+                                    <div class="service-icon">
+                                        <i class="fas fa-wifi"></i>
+                                    </div>
+                                    <div class="service-info">
+                                        <h4>Home Fiber 100 Mbps</h4>
+                                        <p>Active since Jan 12, 2022 • Next billing cycle: Jun 1, 2025</p>
+                                    </div>
+                                    <div class="service-actions">
+                                        <button class="btn btn-outline"><i class="fas fa-eye"></i> View</button>
+                                        <button class="btn btn-outline"><i class="fas fa-exchange-alt"></i> Change</button>
+                                        <button class="btn btn-outline"><i class="fas fa-pause"></i> Suspend</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="service-card slide-in" style="animation-delay: 0.1s;">
+                                    <div class="service-icon">
+                                        <i class="fas fa-wifi"></i>
+                                    </div>
+                                    <div class="service-info">
+                                        <h4>Business Fiber 500 Mbps</h4>
+                                        <p>Active since Mar 5, 2025 • Next billing cycle: Jun 1, 2025</p>
+                                    </div>
+                                    <div class="service-actions">
+                                        <button class="btn btn-outline"><i class="fas fa-eye"></i> View</button>
+                                        <button class="btn btn-outline"><i class="fas fa-exchange-alt"></i> Change</button>
+                                        <button class="btn btn-outline"><i class="fas fa-pause"></i> Suspend</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Mobile Services</h3>
+                                <button class="btn btn-primary"><i class="fas fa-plus"></i> Add Service</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="service-card slide-in" style="animation-delay: 0.2s;">
+                                    <div class="service-icon">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </div>
+                                    <div class="service-info">
+                                        <h4>Unlimited Data Plan</h4>
+                                        <p>Active since Feb 18, 2022 • Next billing cycle: Jun 1, 2025</p>
+                                    </div>
+                                    <div class="service-actions">
+                                        <button class="btn btn-outline"><i class="fas fa-eye"></i> View</button>
+                                        <button class="btn btn-outline"><i class="fas fa-exchange-alt"></i> Change</button>
+                                        <button class="btn btn-outline"><i class="fas fa-pause"></i> Suspend</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="service-card slide-in" style="animation-delay: 0.3s;">
+                                    <div class="service-icon">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </div>
+                                    <div class="service-info">
+                                        <h4>Family Plan (3 lines)</h4>
+                                        <p>Active since Nov 30, 2022 • Next billing cycle: Jun 1, 2025</p>
+                                    </div>
+                                    <div class="service-actions">
+                                        <button class="btn btn-outline"><i class="fas fa-eye"></i> View</button>
+                                        <button class="btn btn-outline"><i class="fas fa-exchange-alt"></i> Change</button>
+                                        <button class="btn btn-outline"><i class="fas fa-pause"></i> Suspend</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="bills">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Billing History</h3>
+                                <button class="btn btn-primary"><i class="fas fa-download"></i> Download All</button>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Bill Date</th>
+                                            <th>Due Date</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>May 1, 2025</td>
+                                            <td>May 15, 2025</td>
+                                            <td>$89.99</td>
+                                            <td><span class="badge badge-warning">Pending</span></td>
+                                            <td>
+                                                <button class="btn btn-outline"><i class="fas fa-eye"></i> View</button>
+                                                <button class="btn btn-outline"><i class="fas fa-download"></i> PDF</button>
+                                                <button class="btn btn-primary"><i class="fas fa-credit-card"></i> Pay</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Apr 1, 2025</td>
+                                            <td>Apr 15, 2025</td>
+                                            <td>$89.99</td>
+                                            <td><span class="badge badge-success">Paid</span></td>
+                                            <td>
+                                                <button class="btn btn-outline"><i class="fas fa-eye"></i> View</button>
+                                                <button class="btn btn-outline"><i class="fas fa-download"></i> PDF</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Mar 1, 2025</td>
+                                            <td>Mar 15, 2025</td>
+                                            <td>$89.99</td>
+                                            <td><span class="badge badge-success">Paid</span></td>
+                                            <td>
+                                                <button class="btn btn-outline"><i class="fas fa-eye"></i> View</button>
+                                                <button class="btn btn-outline"><i class="fas fa-download"></i> PDF</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="payments">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Payment Methods</h3>
+                                <button class="btn btn-primary" id="add-payment-method"><i class="fas fa-plus"></i> Add Payment Method</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="payment-method">
+                                    <div class="payment-icon">
+                                        <i class="fab fa-cc-visa"></i>
+                                    </div>
+                                    <div class="payment-info">
+                                        <h4>Visa ending in 4242</h4>
+                                        <p>Expires 04/2025</p>
+                                    </div>
+                                    <div class="payment-actions">
+                                        <button class="btn btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                                        <button class="btn btn-outline"><i class="fas fa-trash"></i> Remove</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="payment-method">
+                                    <div class="payment-icon">
+                                        <i class="fab fa-cc-mastercard"></i>
+                                    </div>
+                                    <div class="payment-info">
+                                        <h4>Mastercard ending in 5555</h4>
+                                        <p>Expires 12/2024</p>
+                                    </div>
+                                    <div class="payment-actions">
+                                        <button class="btn btn-outline"><i class="fas fa-edit"></i> Edit</button>
+                                        <button class="btn btn-outline"><i class="fas fa-trash"></i> Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Payment Method</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="payment-form">
+                    <div class="form-group">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" class="form-control" placeholder="1234 5678 9012 3456">
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">Expiration Date</label>
+                                <input type="text" class="form-control" placeholder="MM/YY">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-label">CVV</label>
+                                <input type="text" class="form-control" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Name on Card</label>
+                        <input type="text" class="form-control" placeholder="John Doe">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close">Cancel</button>
+                <button class="btn btn-primary">Save Payment Method</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Internet</a></li>
+                        <li><a href="#">Mobile</a></li>
+                        <li><a href="#">TV</a></li>
+                        <li><a href="#">Phone</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Live Chat</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Telecom Self-Service. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+            
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            const addPaymentBtn = document.getElementById('add-payment-method');
+            const paymentModal = document.getElementById('payment-modal');
+            const modalCloseBtns = document.querySelectorAll('.modal-close');
+            
+            addPaymentBtn.addEventListener('click', function() {
+                paymentModal.classList.add('active');
+            });
+            
+            modalCloseBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    paymentModal.classList.remove('active');
+                });
+            });
+            
+            paymentModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+            
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.service-actions')) {
+                        window.location.href = '#';
+                    }
+                });
+            });
+            
+            const avatar = document.querySelector('.avatar');
+            avatar.addEventListener('click', function() {
+                alert('Account menu would open here');
+            });
+        });
+    </script>
+</body>
+</html>
